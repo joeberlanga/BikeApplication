@@ -46,3 +46,15 @@ C:\Users\Joe\Documents\Projects\BikeApplication\BikeApplication\obj\Debug\BikeAp
 C:\Users\Joe\Documents\Projects\BikeApplication\BikeApplication\obj\Debug\BikeApplication.Properties.Resources.resources
 C:\Users\Joe\Documents\Projects\BikeApplication\BikeApplication\obj\Debug\BikeApplication.csproj.GenerateResource.Cache
 C:\Users\Joe\Documents\Projects\BikeApplication\BikeApplication\bin\Debug\ZedGraph.dll
+C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\bin\Debug\BikeApplication.exe.config
+C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\obj\Debug\BikeApplication.exe
+C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\obj\Debug\BikeApplication.pdb
+C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\obj\Debug\BikeApplication.csprojResolveAssemblyReference.cache
+C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\obj\Debug\BikeApplication.Form1.resources
+C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\obj\Debug\BikeApplication.Properties.Resources.resources
+C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\obj\Debug\BikeApplication.csproj.GenerateResource.Cache
+C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\bin\Debug\BikeApplication.exe
+C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\bin\Debug\BikeApplication.pdb
+C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\bin\Debug\GoogleChartSharp.dll
+C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\bin\Debug\ZedGraph.dll
+C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\bin\Debug\GoogleChartSharp.xml

@@ -20,36 +20,48 @@ namespace BikeApplication
         {
             // run methods in order in the constructor
             InitializeComponent();
-            getData();
-            sortData();
-            displayData();
+            
+            
             
         }
 
         //delcare various lists and variables which will be uses through application
         private string[] data;  
-        private int arrayCount;
         List<double> heartRate = new List<double>();
         List<double> speed = new List<double>();
         List<double> cadence = new List<double>();
         List<double> altitude = new List<double>();
         List<double> power = new List<double>();
-        List<double> powerLRBallance = new List<double>();
         private double speedUnit = 1;
         private string stringSpeedUnit = "KPH";
         private string startTime;
+        // create a new double array same length as data list
+        
+
+       
+
+
+
+
 
 
         // method all data and processors and displays header statistics
-        public void getData()
+        public void getData(string path)
         {
 
-            string path = @"C:\Users\Joe\Documents\UNI\software\Bikeapplication data\BikeAssignment1\BikeAssignment\BikeApplication\ASDBExampleCycleComputerData.hrm";
+            
             string line;
             StreamReader sr = new StreamReader(path);
-
+            string smode = "";
             while ((line = sr.ReadLine()) != null)
             {
+
+                if (line.StartsWith("SMode"))
+                {
+                    smode = line.Substring(6);
+                    
+                }
+
 
                 // finds date in header then converts it to date format using string builder
                 if(line.StartsWith("Date"))
@@ -117,39 +129,59 @@ namespace BikeApplication
                 if(line.Contains("[HRData]"))
                 {
                     data = sr.ReadToEnd().Split(new Char [] {'\t','\n'});
+                    
                     break;
 
-                }                  
-
+                }
+                
             }
+            sortData(smode);
+            
 
         }
-        public void sortData()
+        private List<double> powerCalc(double[] doubleData)
+        {
+            int count = 0;
+            double averagePower = 0;
+
+            for (int i = 4; i < data.Length; i = i + 6)
+            {
+                
+                // same as before with power
+                power.Add(doubleData[i]);
+                if (doubleData[i] != 0)
+                {
+
+                    averagePower = averagePower + doubleData[i];
+                    count++;
+
+                }
+
+            }
+            // work out max/averages and display
+            double maximumPower = power.Max();
+            label30.Text = maximumPower.ToString();
+
+            averagePower = averagePower / count;
+            averagePower = Math.Round(averagePower, 2);
+            label22.Text = averagePower.ToString();
+
+
+            return power;
+
+
+
+        }
+        private List<double> heartRateCalc(double[] doubleData)
         {
 
-            
-            // create a new double array same length as data list
-            double[] doubleData = new double[data.Length];
-
-            // converts data into double array
-            for (int x = 0; x < data.Length;x++ )
-            {
-                // trys to parse the data in the data list and then outputs to doubledata array
-               double.TryParse(data[x], out doubleData[x]);
-               
-            }
-            // finds the length of the array
-            arrayCount = data.Length;
-
-
-            //setting varaibles for heart rate
             double heartRateAverage = 0;
             int count = 0;
 
             // loops through the data array and picks out heart rate information
-            for (int i = 0; i < data.Length; i = i+6)
+            for (int i = 0; i < data.Length; i = i + 6)
             {
-                
+
                 heartRate.Add(doubleData[i]);
 
                 // if heart rate is zero ignore it when calculation averages (shouldnt ever reach 0!)
@@ -160,7 +192,7 @@ namespace BikeApplication
 
                 }
 
-                
+
             }
 
             // calculation averages, rounds them to two decimal places and displays
@@ -168,22 +200,29 @@ namespace BikeApplication
             heartRateAverage = Math.Round(heartRateAverage, 2);
             label9.Text = heartRateAverage.ToString();
 
+            return heartRate;
+
+
+        }
+        private List<double> speedDistanceCalc(double[] doubleData)
+        {
+
             // variables for speed and distance
             double speedAverage = 0;
-            count = 0;
+            int count = 0;
             double distanceSpeed = 0;
-            for (int i = 1; i < data.Length; i = i+6)
+            for (int i = 1; i < data.Length; i = i + 6)
             {
 
                 doubleData[i] = doubleData[i] / 10;
-                
+
                 // same as other loop for speed but calculates based on users choice of units (MPH/KPH)
                 doubleData[i] = doubleData[i] * speedUnit;
 
-                
+
                 speed.Add(doubleData[i]);
 
-                
+
 
 
                 //divide speed by 60 twice to get distance covered in 1 second and add to speedDistance variable to get total distance covered based on stats
@@ -214,7 +253,7 @@ namespace BikeApplication
                     count++;
 
                 }
-                
+
             }
             // finds the highest value in speed and sotre
             double maximumSpeed = speed.Max();
@@ -223,12 +262,18 @@ namespace BikeApplication
             label27.Text = maximumSpeed.ToString();
 
             //calc averages and display
-            speedAverage = speedAverage / count ;
-           
-            speedAverage = Math.Round(speedAverage, 2);     
+            speedAverage = speedAverage / count;
+
+            speedAverage = Math.Round(speedAverage, 2);
             label11.Text = speedAverage.ToString();
 
-            count = 0;
+            return speed;
+
+
+        }
+        private List<double> cadenceCalc(double[] doubleData)
+        {
+            int count = 0;
             double averageCadence = 0;
 
             for (int i = 2; i < data.Length; i = i + 6)
@@ -252,8 +297,16 @@ namespace BikeApplication
             averageCadence = Math.Round(averageCadence, 2);
             label13.Text = averageCadence.ToString();
 
+
+
+            return cadence;
+        }
+
+        private List<double> altitudeCalc(double[] doubleData)
+        {
+
             double averageAltitude = 0;
-            count = 0;
+            int count = 0;
             for (int i = 3; i < data.Length; i = i + 6)
             {
 
@@ -266,47 +319,63 @@ namespace BikeApplication
                 }
 
             }
+
             //work out max/average and display
             averageAltitude = averageAltitude / count;
             averageAltitude = Math.Round(averageAltitude, 2);
             label33.Text = averageAltitude.ToString();
 
-
             double maximumAltitude = altitude.Max();
 
             label35.Text = maximumAltitude.ToString();
 
-            count = 0;
-            double averagePower = 0;
+            return altitude;
 
-            for (int i = 4; i < data.Length; i = i + 6)
+        }
+
+
+        private void sortData(string smode)
+        {
+
+            double[] doubleData = new double[data.Length];
+
+            // converts data into double array
+            for (int x = 0; x < data.Length; x++)
             {
-                // same as before with power
-                power.Add(doubleData[i]);
-                if (doubleData[i] != 0)
-                {
-
-                    averagePower = averagePower + doubleData[i];
-                    count++;
-
-                }
-
-            }
-            // work out max/averages and display
-            double maximumPower = power.Max();
-            label30.Text = maximumPower.ToString();
-
-            averagePower = averagePower / count;
-            averagePower = Math.Round(averagePower, 2);
-            label22.Text = averagePower.ToString();
-
-            for (int i = 5; i < data.Length; i = i + 6)
-            {
-                // same loop for power balance (may not be relevant yet)
-                powerLRBallance.Add(doubleData[i]);
+                // trys to parse the data in the data list and then outputs to doubledata array
+                double.TryParse(data[x], out doubleData[x]);
 
             }
 
+            if (smode == "000000000")
+            {
+
+                powerCalc(doubleData);
+
+
+
+            }
+            else if (smode == "111111100")
+            {
+
+                powerCalc(doubleData);
+                heartRateCalc(doubleData);
+                altitudeCalc(doubleData);
+                cadenceCalc(doubleData);
+                speedDistanceCalc(doubleData);
+                Console.WriteLine(speed.Count.ToString());
+
+            }
+           else
+            {
+
+
+
+
+
+            }
+
+            displayData();
             displayGraph(heartRate, cadence);
             
         }
@@ -358,7 +427,7 @@ namespace BikeApplication
                 dt.Columns.Add("Cadence (RPM)", typeof(int));
                 dt.Columns.Add("Altitude (MASL)", typeof(int));
                 dt.Columns.Add("Power (watts)", typeof(int));
-                dt.Columns.Add("Power Left/Right Balance", typeof(int));
+
 
 
                 // converts startimte string into date format so seconds can be added
@@ -370,7 +439,7 @@ namespace BikeApplication
                     string result;
                     result = dateTime.AddSeconds(i).ToString("HH:mm:ss");
 
-                    dt.Rows.Add(result,heartRate[i], speed[i], cadence[i], altitude[i], power[i], powerLRBallance[i]);
+                    dt.Rows.Add(result,heartRate[i], speed[i], cadence[i], altitude[i], power[i]);
 
                 }
                 // customize datagridview to make it better looking. Also using datatable as souce to populate it.
@@ -394,10 +463,11 @@ namespace BikeApplication
                 dataGridView1.Columns[2].Width = 150;
                 dataGridView1.Columns[3].Width = 150;
                 dataGridView1.Columns[4].Width = 150;
-                dataGridView1.Columns[5].Width = 250;
+                dataGridView1.Columns[5].Width = 150;
+              
                 dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Calibri", 15, FontStyle.Regular);
                 dataGridView1.ColumnHeadersHeight = 75;
-            
+                Console.Write("getting here");
             
         }
 
@@ -412,8 +482,16 @@ namespace BikeApplication
             if (radioButton1.Checked == true)
             {
                 // data in KPH to begin with so data is multiplied by 1 and units set to KPH
-                speedUnit = 1;
+                speedUnit = 1.60934;
                 stringSpeedUnit = "KPH";
+                for (int i = 0; i < speed.Count; i++)
+                {
+
+                    speed[i] = speed[i] * speedUnit;
+
+
+
+                }
 
             }
             else
@@ -422,17 +500,21 @@ namespace BikeApplication
                 stringSpeedUnit = "MPH";
                 speedUnit = 0.621371;
 
+                for (int i = 0; i < speed.Count; i++ )
+                {
+
+                    speed[i] = speed[i] * speedUnit;
+
+
+
+                }
+
             }
 
+
             // clear everything and rerun methods to populate with alternative units
-            speed.Clear();
-                     
-            heartRate.Clear();
-            cadence.Clear();
-            power.Clear();
-            powerLRBallance.Clear();
-            altitude.Clear();
-            sortData();
+
+
             displayData();
            
 
@@ -440,6 +522,24 @@ namespace BikeApplication
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void btnFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog t = new OpenFileDialog();
+
+            t.Filter = "HRM|*.hrm";
+            if (t.ShowDialog() == DialogResult.OK)
+            {
+
+                string path = t.FileName;
+                getData(path);
+
+
+
+            }
+
 
         }
       
