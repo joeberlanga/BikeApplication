@@ -35,6 +35,7 @@ namespace BikeApplication
         private double speedUnit = 1;
         private string stringSpeedUnit = "KPH";
         private string startTime;
+        
         // create a new double array same length as data list
         
 
@@ -46,7 +47,7 @@ namespace BikeApplication
 
 
         // method all data and processors and displays header statistics
-        public void getData(string path)
+        private void getData(string path)
         {
 
             
@@ -139,25 +140,51 @@ namespace BikeApplication
             
 
         }
-        private List<double> powerCalc(double[] doubleData)
+        private List<double> powerCalc(double[] doubleData, string smode)
         {
             int count = 0;
             double averagePower = 0;
 
-            for (int i = 4; i < data.Length; i = i + 6)
+            if(smode == "000000000")
             {
-                
-                // same as before with power
-                power.Add(doubleData[i]);
-                if (doubleData[i] != 0)
+                for (int i = 4; i < data.Length; i++)
                 {
 
-                    averagePower = averagePower + doubleData[i];
-                    count++;
+                    // same as before with power
+                    power.Add(doubleData[i]);
+                    if (doubleData[i] != 0)
+                    {
+
+                        averagePower = averagePower + doubleData[i];
+                        count++;
+
+                    }
+
+                }
+
+
+            }
+
+            else
+            {
+                for (int i = 4; i < data.Length; i = i + 6)
+                {
+
+                    // same as before with power
+                    power.Add(doubleData[i]);
+                    if (doubleData[i] != 0)
+                    {
+
+                        averagePower = averagePower + doubleData[i];
+                        count++;
+
+                    }
 
                 }
 
             }
+
+            
             // work out max/averages and display
             double maximumPower = power.Max();
             label30.Text = maximumPower.ToString();
@@ -172,7 +199,7 @@ namespace BikeApplication
 
 
         }
-        private List<double> heartRateCalc(double[] doubleData)
+        private List<double> heartRateCalc(double[] doubleData, string smode)
         {
 
             double heartRateAverage = 0;
@@ -204,7 +231,7 @@ namespace BikeApplication
 
 
         }
-        private List<double> speedDistanceCalc(double[] doubleData)
+        private List<double> speedDistanceCalc(double[] doubleData, string smode)
         {
 
             // variables for speed and distance
@@ -271,7 +298,7 @@ namespace BikeApplication
 
 
         }
-        private List<double> cadenceCalc(double[] doubleData)
+        private List<double> cadenceCalc(double[] doubleData, string smode)
         {
             int count = 0;
             double averageCadence = 0;
@@ -302,7 +329,7 @@ namespace BikeApplication
             return cadence;
         }
 
-        private List<double> altitudeCalc(double[] doubleData)
+        private List<double> altitudeCalc(double[] doubleData, string smode)
         {
 
             double averageAltitude = 0;
@@ -337,6 +364,7 @@ namespace BikeApplication
         private void sortData(string smode)
         {
 
+
             double[] doubleData = new double[data.Length];
 
             // converts data into double array
@@ -350,37 +378,35 @@ namespace BikeApplication
             if (smode == "000000000")
             {
 
-                powerCalc(doubleData);
+                powerCalc(doubleData, smode);
 
-
+                displayGraph(heartRate, cadence, speed, altitude, power, smode);
 
             }
             else if (smode == "111111100")
             {
 
-                powerCalc(doubleData);
-                heartRateCalc(doubleData);
-                altitudeCalc(doubleData);
-                cadenceCalc(doubleData);
-                speedDistanceCalc(doubleData);
-                Console.WriteLine(speed.Count.ToString());
+                powerCalc(doubleData, smode);
+                heartRateCalc(doubleData, smode);
+                altitudeCalc(doubleData, smode);
+                cadenceCalc(doubleData, smode);
+                speedDistanceCalc(doubleData, smode);
+                displayGraph(heartRate, cadence, speed, altitude, power, smode);
 
             }
            else
             {
 
-
-
+                
 
 
             }
 
-            displayData();
-            displayGraph(heartRate, cadence);
             
+            displayData(smode);
         }
 
-        public void displayGraph(List<double> heartRate, List<double> cadence)
+        private void displayGraph(List<double> heartRate, List<double> cadence, List<double> altitude, List<double> power, List<double> speed, string smode)
         {
             GraphPane myPane = zedGraphControl1.GraphPane;
 
@@ -388,38 +414,58 @@ namespace BikeApplication
             myPane.XAxis.Title = "Time (Minutes)";
             myPane.YAxis.Title = "Scale";
             
-            PointPairList heartRatePP = new PointPairList();
-            PointPairList cadencePP = new PointPairList();
-            double count = 1;
-            for (int i = 0; i < cadence.Count; i = i+60 )
+            if(smode == "000000000")
             {
-                
-                heartRatePP.Add(count, heartRate[i]);
-                cadencePP.Add(count, cadence[i]);
-                count++;
+                double count = 0;
+                PointPairList powerPP = new PointPairList();
+                for (int i = 0; i < cadence.Count; i++)
+                {
+
+                    powerPP.Add(count, heartRate[i]);
+                  
+                    count++;
+                }
+
+                LineItem CurvePower = myPane.AddCurve("Power", powerPP, Color.Green, SymbolType.Default);
+
+
             }
 
+            if(smode == "111111100")
+            {
+                double count = 0;
+                PointPairList heartRatePP = new PointPairList();
+                PointPairList cadencePP = new PointPairList();
 
-            LineItem CurveHeartRate = myPane.AddCurve("Heart Rate", heartRatePP, Color.Red, SymbolType.Default);
-            LineItem CurveCadence = myPane.AddCurve("Cadence", cadencePP, Color.Blue, SymbolType.Diamond);
+                for (int i = 0; i < cadence.Count; i = i + 60)
+                {
+
+                    heartRatePP.Add(count, heartRate[i]);
+                    cadencePP.Add(count, cadence[i]);
+                    count++;
+                }
+
+                LineItem CurveHeartRate = myPane.AddCurve("Heart Rate", heartRatePP, Color.Red, SymbolType.Default);
+                LineItem CurveCadence = myPane.AddCurve("Cadence", cadencePP, Color.Blue, SymbolType.Diamond);
+
+
+
+            }
+
             zedGraphControl1.AxisChange();
 
+
+
         }
-        public void displayData()
+        private void displayData(string smode)
         {
 
+
+            DataTable dt = new DataTable();
+
+                
+
             
-
-
-
-
-
-
-
-
-                // create data table and convert to array so length can be used to determine loop sizes later (possibly can be done with lists?)
-                DataTable dt = new DataTable();
-                double[] heartRateArray = heartRate.ToArray();
                 // create colum headers
                 dt.Columns.Add("Time");
                 dt.Columns.Add("Heart Rate (BPM)", typeof(int));
@@ -428,12 +474,12 @@ namespace BikeApplication
                 dt.Columns.Add("Altitude (MASL)", typeof(int));
                 dt.Columns.Add("Power (watts)", typeof(int));
 
-
+                
 
                 // converts startimte string into date format so seconds can be added
                 DateTime dateTime = DateTime.ParseExact(startTime, "HH:mm:ss.f", null);
                 
-                for (int i = 0; i < heartRateArray.Length - 1; i++)
+                for (int i = 0; i < heartRate.Count - 1; i++)
                 {
                     // add all data from array/lists and add seconds to datetime
                     string result;
@@ -442,7 +488,10 @@ namespace BikeApplication
                     dt.Rows.Add(result,heartRate[i], speed[i], cadence[i], altitude[i], power[i]);
 
                 }
+                Console.WriteLine("got here");
                 // customize datagridview to make it better looking. Also using datatable as souce to populate it.
+
+
                 dataGridView1.DataSource = dt;
                 dataGridView1.Columns[0].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
                 dataGridView1.Columns[1].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
@@ -514,8 +563,8 @@ namespace BikeApplication
 
             // clear everything and rerun methods to populate with alternative units
 
-
             displayData();
+            
            
 
         }
@@ -527,6 +576,12 @@ namespace BikeApplication
 
         private void btnFile_Click(object sender, EventArgs e)
         {
+            speed.Clear();
+            heartRate.Clear();
+            cadence.Clear();
+            altitude.Clear();
+
+            
             OpenFileDialog t = new OpenFileDialog();
 
             t.Filter = "HRM|*.hrm";

@@ -55,6 +55,5 @@ C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\obj\Debug\BikeAppl
 C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\obj\Debug\BikeApplication.csproj.GenerateResource.Cache
 C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\bin\Debug\BikeApplication.exe
 C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\bin\Debug\BikeApplication.pdb
-C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\bin\Debug\GoogleChartSharp.dll
 C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\bin\Debug\ZedGraph.dll
 C:\Users\Joe\Documents\GitHub\BikeApplication\BikeApplication\bin\Debug\GoogleChartSharp.xml
