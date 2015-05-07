@@ -35,6 +35,8 @@ namespace BikeApplication
         // method all data and processors and displays header statistics
         private string[] getData()
         {
+
+            
             double speedUnit = 1;
             string[] data = null;
             string line;
@@ -46,6 +48,13 @@ namespace BikeApplication
                 if (line.StartsWith("SMode"))
                 {
                     smode = line.Substring(6);
+                    if(smode == "000000000")
+                    {
+                        radioButton1.Enabled = false;
+                        radioButton2.Enabled = false;
+
+
+                    }
                     
                 }
 
@@ -403,7 +412,9 @@ namespace BikeApplication
         private void displayGraph(List<double> heartRate, List<double> cadence, List<double> altitude, List<double> power, List<double> speed, string smode)
         {
             GraphPane myPane = zedGraphControl1.GraphPane;
-
+            myPane.GraphItemList.Clear();
+            myPane.CurveList.Clear();
+            zedGraphControl1.AxisChange();
             myPane.Title = "Plotted Data";
             myPane.XAxis.Title = "Time (Minutes)";
             myPane.YAxis.Title = "Scale";
@@ -460,7 +471,7 @@ namespace BikeApplication
 
 
         }
-        private void displayData(string smode, List<double> heartRate, List<double> cadence, List<double> altitude, List<double> power, List<double> speed)
+        private void displayData(string smode, List<double> heartRate, List<double> cadence, List<double> altitude,List<double> speed, List<double> power )
         {
 
 
@@ -478,7 +489,7 @@ namespace BikeApplication
             if (smode == "000000000")
             {
                 dt.Columns.Add("Power (watts)", typeof(int));
-                for (int i = 0; i < heartRate.Count - 1; i++)
+                for (int i = 0; i < power.Count - 1; i++)
                 {
                     // add all data from array/lists and add seconds to datetime
                     string result;
@@ -557,7 +568,7 @@ namespace BikeApplication
             if (radioButton1.Checked == true)
             {
                 // data in KPH to begin with so data is multiplied by 1 and units set to KPH
-                speedUnit = 1.60934;
+                speedUnit = 1;
                 stringSpeedUnit = "KPH";
         
 
