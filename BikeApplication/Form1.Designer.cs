@@ -86,15 +86,19 @@
             this.lblWeight2 = new System.Windows.Forms.Label();
             this.lblVO22 = new System.Windows.Forms.Label();
             this.lblRestingHR2 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
+            this.lblMaxHR2 = new System.Windows.Forms.Label();
             this.lblJourney2 = new System.Windows.Forms.Label();
             this.lblStart2 = new System.Windows.Forms.Label();
             this.lblDate2 = new System.Windows.Forms.Label();
             this.zedGraphControl2 = new ZedGraph.ZedGraphControl();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // lblData
@@ -443,19 +447,22 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(670, 2);
+            this.tabControl1.Location = new System.Drawing.Point(652, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(795, 634);
+            this.tabControl1.Size = new System.Drawing.Size(810, 627);
             this.tabControl1.TabIndex = 45;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.dataGridView2);
             this.tabPage1.Controls.Add(this.dataGridView1);
+            this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(787, 608);
+            this.tabPage1.Size = new System.Drawing.Size(802, 601);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Table";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -463,10 +470,10 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 29);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dataGridView1.Size = new System.Drawing.Size(787, 602);
+            this.dataGridView1.Size = new System.Drawing.Size(800, 271);
             this.dataGridView1.TabIndex = 1;
             // 
             // tabPage2
@@ -618,13 +625,13 @@
             this.lblRestingHR2.Size = new System.Drawing.Size(0, 13);
             this.lblRestingHR2.TabIndex = 137;
             // 
-            // label29
+            // lblMaxHR2
             // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(435, 220);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(0, 13);
-            this.label29.TabIndex = 136;
+            this.lblMaxHR2.AutoSize = true;
+            this.lblMaxHR2.Location = new System.Drawing.Point(435, 220);
+            this.lblMaxHR2.Name = "lblMaxHR2";
+            this.lblMaxHR2.Size = new System.Drawing.Size(0, 13);
+            this.lblMaxHR2.TabIndex = 136;
             // 
             // lblJourney2
             // 
@@ -659,6 +666,35 @@
             this.zedGraphControl2.Size = new System.Drawing.Size(664, 233);
             this.zedGraphControl2.TabIndex = 1;
             // 
+            // dataGridView2
+            // 
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dataGridView2.Location = new System.Drawing.Point(0, 337);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dataGridView2.Size = new System.Drawing.Size(800, 264);
+            this.dataGridView2.TabIndex = 150;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(348, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(100, 31);
+            this.label1.TabIndex = 151;
+            this.label1.Text = "Data 1";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(348, 303);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(100, 31);
+            this.label2.TabIndex = 152;
+            this.label2.Text = "Data 2";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -677,7 +713,7 @@
             this.Controls.Add(this.lblWeight2);
             this.Controls.Add(this.lblVO22);
             this.Controls.Add(this.lblRestingHR2);
-            this.Controls.Add(this.label29);
+            this.Controls.Add(this.lblMaxHR2);
             this.Controls.Add(this.lblJourney2);
             this.Controls.Add(this.lblStart2);
             this.Controls.Add(this.lblDate2);
@@ -726,8 +762,10 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -793,11 +831,14 @@
         private System.Windows.Forms.Label lblWeight2;
         private System.Windows.Forms.Label lblVO22;
         private System.Windows.Forms.Label lblRestingHR2;
-        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label lblMaxHR2;
         private System.Windows.Forms.Label lblJourney2;
         private System.Windows.Forms.Label lblStart2;
         private System.Windows.Forms.Label lblDate2;
         private ZedGraph.ZedGraphControl zedGraphControl2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.Label label1;
 
     }
 }

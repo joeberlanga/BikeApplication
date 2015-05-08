@@ -32,231 +32,259 @@ namespace BikeApplication
         private string stringSpeedUnit = "KPH";
         private string startTime;
         string path = "";
-
+        string[] data = null;
+        string[] data2 = null;
+        double speedUnit = 1;
         // method all data and processors and displays header statistics
         private string[] getData(int file)
         {
 
-            
-            double speedUnit = 1;
-            string[] data = null;
-            string[] data2 = null;
-            string line;
-            StreamReader sr = new StreamReader(path);
-            
-            while ((line = sr.ReadLine()) != null)
+            if (file != 3)
             {
 
-                if (line.StartsWith("SMode"))
-                {
-                    if (file == 2)
-                    {
-
-                        smode2 = line.Substring(6);
-
-                    }
-                    else
-                    {
-                        smode = line.Substring(6);
-                    }
-                    if(smode == "000000000")
-                    {
-                        radioButton1.Enabled = false;
-                        radioButton2.Enabled = false;
-
-
-                    }
-                    else
-                    {
-                        radioButton1.Enabled = true;
-                        radioButton2.Enabled = true;
-
-
-
-                    }
-                    
-                }
-
-
-                // finds date in header then converts it to date format using string builder
-                if(line.StartsWith("Date"))
-                {
-                    if (file == 2)
-                    {
-                        string date2 = line.Substring(5);
-                        StringBuilder sb2 = new StringBuilder();
-                        sb2.Append(date2);
-                        sb2.Insert(4, "-");
-                        sb2.Insert(7, "-");
-                        date2 = sb2.ToString();
-                        DateTime dt2 = Convert.ToDateTime(date2);
-                        lblDate2.Text = date2;
-
-
-                    }
-                    else
-                    {
-                        string date = line.Substring(5);
-                        StringBuilder sb = new StringBuilder();
-                        sb.Append(date);
-                        sb.Insert(4, "-");
-                        sb.Insert(7, "-");
-                        date = sb.ToString();
-                        DateTime dt = Convert.ToDateTime(date);
-                        lblData.Text = date;
-                    }
-                }
-
-                // finds start time in header and displays
-                if (line.StartsWith("StartTime"))
-                {
-                    if (file == 2)
-                    {
-                        startTime = line.Substring(10);
-
-                        lblStart2.Text = startTime;
-
-
-                    }
-                    else
-                    {
-                        startTime = line.Substring(10);
-
-                        lblStart.Text = startTime;
-                    }
-                }
-
-                //finds length and displays
-                if (line.StartsWith("Length"))
-                {
-                    if (file == 2)
-                    {
-                        string Length2 = line.Substring(7);
-
-                        lblJourney2.Text = Length2 + (" (hh:mm:ss)");
-
-
-                    }
-                    else
-                    {
-                        string Length = line.Substring(7);
-
-                        lblJourney.Text = Length + (" (hh:mm:ss)");
-                    }
-                }
-                // finds max heart rate and disaplys
-                if (line.StartsWith("MaxHR"))
-                {
-                    if (file == 2)
-                    {
-                        string maxHR2 = line.Substring(6);
-
-                        tabPage2.Text = maxHR2 + (" (BPM)");
-
-
-                    }
-                    else
-                    {
-                        string maxHR = line.Substring(6);
-
-                        lblMaxHR.Text = maxHR + (" (BPM)");
-                    }
-           
-
-                }
-                // finds resting heart rate and displays
-                if (line.StartsWith("RestHR"))
-                {
-                    if (file == 2)
-                    {
-                        string restHR2 = line.Substring(7);
-
-                        lblRestingHR2.Text = restHR2 + (" (BPM)");
-
-
-                    }
-                    else
-                    {
-                        string restHR = line.Substring(7);
-
-                        lblRestHR.Text = restHR + (" (BPM)");
-                    }
-           
-
-                }
-                // finds VO2max and displays
-                if (line.StartsWith("VO2max"))
-                {
-                    if (file == 2)
-                    {
-                        string VO2max2 = line.Substring(7);
-
-                        lblVO22.Text = VO2max2 + (" (ml/min/kg)");
-
-
-                    }
-                    else
-                    {
-                        string VO2max = line.Substring(7);
-
-                        lblVO2.Text = VO2max + (" (ml/min/kg)");
-                    }
-
-
-                }
-                //finds weight and displays
-                if (line.StartsWith("Weight"))
-                {
-                    if (file == 2)
-                    {
-                        string weight2 = line.Substring(7);
-
-                        lblWeight2.Text = weight2 + (" (kg)");
-
-
-                    }
-                    else
-                    {
-                        string weight = line.Substring(7);
-
-                        lblWeight.Text = weight + (" (kg)");
-                    }
-          
-
-                }
-                // finds HR data then processes all data after that by inputting into data array for later use, breaks loop once data is found
-                if(line.Contains("[HRData]"))
-                {
-                    if (file == 2)
-                    {
-                        data2 = sr.ReadToEnd().Split(new Char[] { '\t', '\n' });
-
-
-                    }
-                    else
-                    {
-                        data = sr.ReadToEnd().Split(new Char[] { '\t', '\n' });
-                    }
-                    break;
-
-                }
                 
-            }
 
-            if (file == 2)
-            {
+                string line;
+                StreamReader sr = new StreamReader(path);
 
-                sortData(speedUnit, data2, file);
-                return data2;
 
+
+                while ((line = sr.ReadLine()) != null)
+                {
+
+                    if (line.StartsWith("SMode"))
+                    {
+                        if (file == 2)
+                        {
+
+                            smode2 = line.Substring(6);
+
+                        }
+                        else
+                        {
+                            smode = line.Substring(6);
+                        }
+                        if (smode == "000000000")
+                        {
+                            radioButton1.Enabled = false;
+                            radioButton2.Enabled = false;
+
+
+                        }
+                        else
+                        {
+                            radioButton1.Enabled = true;
+                            radioButton2.Enabled = true;
+
+
+
+                        }
+
+                    }
+
+
+                    // finds date in header then converts it to date format using string builder
+                    if (line.StartsWith("Date"))
+                    {
+                        if (file == 2)
+                        {
+                            string date2 = line.Substring(5);
+                            StringBuilder sb2 = new StringBuilder();
+                            sb2.Append(date2);
+                            sb2.Insert(4, "-");
+                            sb2.Insert(7, "-");
+                            date2 = sb2.ToString();
+                            DateTime dt2 = Convert.ToDateTime(date2);
+                            lblDate2.Text = date2;
+
+
+                        }
+                        else if (file == 1)
+                        {
+                            string date = line.Substring(5);
+                            StringBuilder sb = new StringBuilder();
+                            sb.Append(date);
+                            sb.Insert(4, "-");
+                            sb.Insert(7, "-");
+                            date = sb.ToString();
+                            DateTime dt = Convert.ToDateTime(date);
+                            lblData.Text = date;
+                        }
+                    }
+
+                    // finds start time in header and displays
+                    if (line.StartsWith("StartTime"))
+                    {
+                        if (file == 2)
+                        {
+                            startTime = line.Substring(10);
+
+                            lblStart2.Text = startTime;
+
+
+                        }
+                        else if (file == 1)
+                        {
+                            startTime = line.Substring(10);
+
+                            lblStart.Text = startTime;
+                        }
+                    }
+
+                    //finds length and displays
+                    if (line.StartsWith("Length"))
+                    {
+                        if (file == 2)
+                        {
+                            string Length2 = line.Substring(7);
+
+                            lblJourney2.Text = Length2 + (" (hh:mm:ss)");
+
+
+                        }
+                        else if (file == 1)
+                        {
+                            string Length = line.Substring(7);
+
+                            lblJourney.Text = Length + (" (hh:mm:ss)");
+                        }
+                    }
+                    // finds max heart rate and disaplys
+                    if (line.StartsWith("MaxHR"))
+                    {
+                        if (file == 2)
+                        {
+                            string maxHR2 = line.Substring(6);
+
+                            lblMaxHR2.Text = maxHR2 + (" (BPM)");
+
+
+                        }
+                        else if (file == 1)
+                        {
+                            string maxHR = line.Substring(6);
+
+                            lblMaxHR.Text = maxHR + (" (BPM)");
+                        }
+
+
+                    }
+                    // finds resting heart rate and displays
+                    if (line.StartsWith("RestHR"))
+                    {
+                        if (file == 2)
+                        {
+                            string restHR2 = line.Substring(7);
+
+                            lblRestingHR2.Text = restHR2 + (" (BPM)");
+
+
+                        }
+                        else if (file == 1)
+                        {
+                            string restHR = line.Substring(7);
+
+                            lblRestHR.Text = restHR + (" (BPM)");
+                        }
+
+
+                    }
+                    // finds VO2max and displays
+                    if (line.StartsWith("VO2max"))
+                    {
+                        if (file == 2)
+                        {
+                            string VO2max2 = line.Substring(7);
+
+                            lblVO22.Text = VO2max2 + (" (ml/min/kg)");
+
+
+                        }
+                        else if (file == 1)
+                        {
+                            string VO2max = line.Substring(7);
+
+                            lblVO2.Text = VO2max + (" (ml/min/kg)");
+                        }
+
+
+                    }
+                    //finds weight and displays
+                    if (line.StartsWith("Weight"))
+                    {
+                        if (file == 2)
+                        {
+                            string weight2 = line.Substring(7);
+
+                            lblWeight2.Text = weight2 + (" (kg)");
+
+
+                        }
+                        else if (file == 1)
+                        {
+                            string weight = line.Substring(7);
+
+                            lblWeight.Text = weight + (" (kg)");
+                        }
+
+
+                    }
+                    // finds HR data then processes all data after that by inputting into data array for later use, breaks loop once data is found
+                    if (line.Contains("[HRData]"))
+                    {
+                        if (file == 2)
+                        {
+                            data2 = sr.ReadToEnd().Split(new Char[] { '\t', '\n' });
+
+
+                        }
+                        else if (file == 1)
+                        {
+                            data = sr.ReadToEnd().Split(new Char[] { '\t', '\n' });
+                        }
+                        break;
+
+                    }
+
+                }
+
+                if (file == 2)
+                {
+
+                    sortData( data2, file);
+                    return data2;
+
+                }
+                else
+                {
+                    sortData( data, file);
+
+                    return data;
+                }
+              
             }
             else
             {
-                sortData(speedUnit, data, file);
 
-                return data;
+                if(smode != "" || smode2 != "")
+                {
+                    file = 1;
+                    sortData(data, file);
+                    file = 2;
+                    sortData(data2, file);
+
+                }
+                else
+                {
+                    sortData(data, file);
+
+
+
+                }
+
+                return null;
             }
-            
+
 
         }
         private List<double> powerCalc(double[] doubleData, int file)
@@ -417,8 +445,21 @@ namespace BikeApplication
                     distance = " Miles";
 
                 }
+                if(file == 2)
+                {
+
+                    lblDistance2.Text = distanceSpeed.ToString() + distance;
+
+
+                }
+                else if(file == 1)
+                {
+
+                    lblTotalDistance.Text = distanceSpeed.ToString() + distance;
+
+                }
                 //display distance with units
-                lblTotalDistance.Text = distanceSpeed.ToString() + distance;
+               
 
                 if (doubleData[i] != 0)
                 {
@@ -440,13 +481,14 @@ namespace BikeApplication
                 lblMaximumSpeed2.Text = maximumSpeed.ToString();
                 lblSpeedAverage2.Text = speedAverage.ToString();
             }
-            else
+            else if(file == 1)
             {
 
                 lblMaximumSpeed.Text = maximumSpeed.ToString();
                 lblSpeedAverage.Text = speedAverage.ToString();
 
             }
+       
             // finds the highest value in speed and sotre
            
 
@@ -557,14 +599,12 @@ namespace BikeApplication
         }
 
 
-        private void sortData(double speedUnit, string[] data, int file)
+        private void sortData( string[] data, int file)
         {
-            int ChosenFile = 0;
-            if(file == 1 || file == 2)
-            {
-                ChosenFile = file;
-            }
-            if (ChosenFile == 2)
+            
+
+        
+            if (file == 2)
             {
                 List<double> altitude2 = new List<double>();
                 List<double> speed2 = new List<double>();
@@ -598,14 +638,8 @@ namespace BikeApplication
 
 
                 }
-                else
-                {
-
-
-
-
-                }
-                displayGraph(heartRate2, cadence2, altitude2, power2, speed2, smode, file);
+  
+                displayGraph(heartRate2, cadence2, altitude2, power2, speed2, file);
                 displayData(smode, heartRate2, cadence2, altitude2, speed2, power2, file);
 
             }
@@ -651,7 +685,7 @@ namespace BikeApplication
 
 
                 }
-                displayGraph(heartRate, cadence, altitude, power, speed, smode, file);
+                displayGraph(heartRate, cadence, altitude, power, speed, file);
                 displayData(smode, heartRate, cadence, altitude, speed, power, file);
             }
            
@@ -660,7 +694,7 @@ namespace BikeApplication
             
         }
 
-        private void displayGraph(List<double> heartRate, List<double> cadence, List<double> altitude, List<double> power, List<double> speed, string smode, int file)
+        private void displayGraph(List<double> heartRate, List<double> cadence, List<double> altitude, List<double> power, List<double> speed, int file)
         {
 
             if (file == 2)
@@ -669,7 +703,7 @@ namespace BikeApplication
                 GraphPane myPane2 = zedGraphControl2.GraphPane;
                 myPane2.GraphItemList.Clear();
                 myPane2.CurveList.Clear();
-                zedGraphControl1.AxisChange();
+                zedGraphControl2.AxisChange();
                 myPane2.Title = "Data File 2";
                 myPane2.XAxis.Title = "Time (Minutes)";
                 myPane2.YAxis.Title = "Scale";
@@ -677,16 +711,16 @@ namespace BikeApplication
                 if (smode2 == "000000000")
                 {
                     double count = 0;
-                    PointPairList powerPP = new PointPairList();
+                    PointPairList powerPP2 = new PointPairList();
                     for (int i = 0; i < power.Count; i++)
                     {
 
-                        powerPP.Add(count, power[i]);
+                        powerPP2.Add(count, power[i]);
 
                         count++;
                     }
 
-                    LineItem CurvePower2 = myPane2.AddCurve("Power", powerPP, Color.Green, SymbolType.Default);
+                    LineItem CurvePower2 = myPane2.AddCurve("Power", powerPP2, Color.Green, SymbolType.Default);
 
 
                 }
@@ -694,32 +728,33 @@ namespace BikeApplication
                 if (smode2 == "111111100")
                 {
                     double count = 0;
-                    PointPairList heartRatePP = new PointPairList();
-                    PointPairList cadencePP = new PointPairList();
-                    PointPairList altitudePP = new PointPairList();
-                    PointPairList powerPP = new PointPairList();
-                    PointPairList speedPP = new PointPairList();
+                    PointPairList heartRatePP2 = new PointPairList();
+                    PointPairList cadencePP2 = new PointPairList();
+                    PointPairList altitudePP2 = new PointPairList();
+                    PointPairList powerPP2 = new PointPairList();
+                    PointPairList speedPP2 = new PointPairList();
 
                     for (int i = 0; i < cadence.Count; i = i + 60)
                     {
 
-                        heartRatePP.Add(count, heartRate[i]);
-                        cadencePP.Add(count, cadence[i]);
-                        altitudePP.Add(count, altitude[i]);
-                        powerPP.Add(count, power[i]);
-                        speedPP.Add(count, speed[i]);
+                        heartRatePP2.Add(count, heartRate[i]);
+                        cadencePP2.Add(count, cadence[i]);
+                        altitudePP2.Add(count, altitude[i]);
+                        powerPP2.Add(count, power[i]);
+                        speedPP2.Add(count, speed[i]);
                         count++;
                     }
 
-                    LineItem CurveHeartRate2 = myPane2.AddCurve("Heart Rate", heartRatePP, Color.Red, SymbolType.Default);
-                    LineItem CurveCadence2 = myPane2.AddCurve("Cadence", cadencePP, Color.Blue, SymbolType.Diamond);
-                    LineItem CurveAltitude2 = myPane2.AddCurve("Altitude", altitudePP, Color.Pink, SymbolType.Star);
-                    LineItem CurvePower2 = myPane2.AddCurve("Power", powerPP, Color.Orange, SymbolType.Triangle);
-                    LineItem CurveSpeed2 = myPane2.AddCurve("Speed", speedPP, Color.Purple, SymbolType.Circle);
+                    LineItem CurveHeartRate2 = myPane2.AddCurve("Heart Rate", heartRatePP2, Color.Red, SymbolType.Default);
+                    LineItem CurveCadence2 = myPane2.AddCurve("Cadence", cadencePP2, Color.Blue, SymbolType.Diamond);
+                    LineItem CurveAltitude2 = myPane2.AddCurve("Altitude", altitudePP2, Color.Pink, SymbolType.Star);
+                    LineItem CurvePower2 = myPane2.AddCurve("Power", powerPP2, Color.Orange, SymbolType.Triangle);
+                    LineItem CurveSpeed2 = myPane2.AddCurve("Speed", speedPP2, Color.Purple, SymbolType.Circle);
 
 
 
                 }
+                zedGraphControl2.AxisChange();
 
             }
             else
@@ -736,10 +771,10 @@ namespace BikeApplication
                 {
                     double count = 0;
                     PointPairList powerPP = new PointPairList();
-                    for (int i = 0; i < cadence.Count; i++)
+                    for (int i = 0; i < power.Count; i++)
                     {
 
-                        powerPP.Add(count, heartRate[i]);
+                        powerPP.Add(count, power[i]);
 
                         count++;
                     }
@@ -778,16 +813,17 @@ namespace BikeApplication
 
 
                 }
-
+                zedGraphControl1.AxisChange();
             }
 
 
-
-            
-            
-            
-
             zedGraphControl1.AxisChange();
+            zedGraphControl2.AxisChange();
+            this.Refresh();
+            
+            
+
+            
 
 
 
@@ -819,8 +855,11 @@ namespace BikeApplication
 
                     }
 
-                    dataGridView1.DataSource = dt2;
-
+                    dataGridView2.DataSource = dt2;
+                    dataGridView2.Columns[0].Width = 390;
+                    dataGridView2.Columns[1].Width = 390;
+                    dataGridView2.Columns[0].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
+                    dataGridView2.Columns[1].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
 
 
                 }
@@ -844,19 +883,19 @@ namespace BikeApplication
 
                     }
 
-                    dataGridView1.DataSource = dt2;
-                    dataGridView1.Columns[0].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
-                    dataGridView1.Columns[1].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
-                    dataGridView1.Columns[2].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
-                    dataGridView1.Columns[3].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
-                    dataGridView1.Columns[4].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
-                    dataGridView1.Columns[5].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
-                    dataGridView1.Columns[0].Width = 175;
-                    dataGridView1.Columns[1].Width = 175;
-                    dataGridView1.Columns[2].Width = 175;
-                    dataGridView1.Columns[3].Width = 175;
-                    dataGridView1.Columns[4].Width = 175;
-                    dataGridView1.Columns[5].Width = 175;
+                    dataGridView2.DataSource = dt2;
+                    dataGridView2.Columns[0].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
+                    dataGridView2.Columns[1].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
+                    dataGridView2.Columns[2].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
+                    dataGridView2.Columns[3].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
+                    dataGridView2.Columns[4].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
+                    dataGridView2.Columns[5].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
+                    dataGridView2.Columns[0].Width = 130;
+                    dataGridView2.Columns[1].Width = 130;
+                    dataGridView2.Columns[2].Width = 130;
+                    dataGridView2.Columns[3].Width = 130;
+                    dataGridView2.Columns[4].Width = 130;
+                    dataGridView2.Columns[5].Width = 130;
 
                 }
 
@@ -892,8 +931,10 @@ namespace BikeApplication
                     }
 
                     dataGridView1.DataSource = dt;
-
-
+                    dataGridView1.Columns[0].Width = 390;
+                    dataGridView1.Columns[1].Width = 390;
+                    dataGridView1.Columns[0].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
+                    dataGridView1.Columns[1].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
 
                 }
                 else if (smode == "111111100")
@@ -923,12 +964,12 @@ namespace BikeApplication
                     dataGridView1.Columns[3].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
                     dataGridView1.Columns[4].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
                     dataGridView1.Columns[5].DefaultCellStyle.Font = new Font("Calibri", 12, FontStyle.Regular);
-                    dataGridView1.Columns[0].Width = 175;
-                    dataGridView1.Columns[1].Width = 175;
-                    dataGridView1.Columns[2].Width = 175;
-                    dataGridView1.Columns[3].Width = 175;
-                    dataGridView1.Columns[4].Width = 175;
-                    dataGridView1.Columns[5].Width = 175;
+                    dataGridView1.Columns[0].Width = 130;
+                    dataGridView1.Columns[1].Width = 130;
+                    dataGridView1.Columns[2].Width = 130;
+                    dataGridView1.Columns[3].Width = 130;
+                    dataGridView1.Columns[4].Width = 130;
+                    dataGridView1.Columns[5].Width = 130;
 
                 }
 
@@ -942,13 +983,26 @@ namespace BikeApplication
             dataGridView1.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridView1.AllowUserToResizeColumns = false;
             dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+       
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 
 
             dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Calibri", 15, FontStyle.Regular);
             dataGridView1.ColumnHeadersHeight = 75;
+
+            dataGridView2.RowHeadersVisible = false;
+            dataGridView2.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView2.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView2.AllowUserToResizeColumns = false;
+            dataGridView2.AllowUserToAddRows = false;
+       
+            dataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+
+
+            dataGridView2.ColumnHeadersDefaultCellStyle.Font = new Font("Calibri", 15, FontStyle.Regular);
+            dataGridView2.ColumnHeadersHeight = 75;
         }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -957,7 +1011,7 @@ namespace BikeApplication
         // if radio buttons checked state is changed
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            double speedUnit;
+            
             if (radioButton1.Checked == true)
             {
                 // data in KPH to begin with so data is multiplied by 1 and units set to KPH
@@ -976,11 +1030,11 @@ namespace BikeApplication
 
             }
             int file = 3;
-            string[] data = getData(file);
+            getData(file);
 
 
 
-            sortData(speedUnit, data, file);
+           
             // clear everything and rerun methods to populate with alternative units
 
             
@@ -996,7 +1050,25 @@ namespace BikeApplication
 
         private void btnFile_Click(object sender, EventArgs e)
         {
-   
+
+            lblAltitude.Text = "";
+            lblAverageHR.Text = "";
+            lblCadenceAverage.Text = "";
+            lblData.Text = "";
+            lblJourney.Text = "";
+            lblMaxHR.Text = "";
+            lblMaximumAltitude.Text = "";
+            lblMaximumCadence.Text = "";
+            lblMaximumPower.Text = "";
+            lblMaximumSpeed.Text = "";
+            lblPowerAverage.Text = "";
+            lblRestHR.Text = "";
+            lblStart.Text = "";
+            lblTotalDistance.Text = "";
+            lblVO2.Text = "";
+            lblWeight.Text = "";
+            lblSpeedAverage.Text = "";
+            
             OpenFileDialog t = new OpenFileDialog();
             int fileOne = 1;
             t.Filter = "HRM|*.hrm";
@@ -1015,6 +1087,26 @@ namespace BikeApplication
 
         private void button1_Click(object sender, EventArgs e)
         {
+
+
+            lblAverageAltitude2.Text = "";
+            lblAverageHR2.Text = "";
+            lblCadence2.Text = "";
+            lblDate2.Text = "";
+            lblJourney2.Text = "";
+            lblMaxHR2.Text = "";
+            lblMaximumAltitude2.Text = "";
+            lblMaximumCadence2.Text = "";
+            lblMaximumPower2.Text = "";
+            lblMaximumSpeed2.Text = "";
+            lblPowerAverage2.Text = "";
+            lblRestingHR2.Text = "";
+            lblStart2.Text = "";
+            lblDistance2.Text = "";
+            lblVO22.Text = "";
+            lblWeight2.Text = "";
+            lblSpeedAverage2.Text = "";
+
             OpenFileDialog l = new OpenFileDialog();
             int fileTwo = 2;
             l.Filter = "HRM|*.hrm";
